@@ -1,6 +1,7 @@
 ﻿using Devcard_MVC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,18 @@ using System.Threading.Tasks;
 
 namespace Devcard_MVC.Controllers
 {
+    
     public class HomeController : Controller
     {
-        
+		private readonly List<Service> _services = new List<Service>
+	    {
+		    new Service(1,"نقره ای"),
+		    new Service(2,"طلایی"),
+		    new Service(3,"پلاتین"),
+		    new Service(4,"الماس")
+	    };
 
-        public HomeController()
-        {
-            
-        }
-
-        public IActionResult Index()
+		public IActionResult Index()
         {
             return View();
         }
@@ -27,7 +30,11 @@ namespace Devcard_MVC.Controllers
         [HttpGet]
         public IActionResult Contact()
         {
-            return View();
+            var model = new Contact
+            { 
+                Services = new SelectList(_services, "Id", "Name")
+            };
+            return View(model);
         }
 
         //برای زمانی که نمیدونیم فیلد های فرم ما به چه صورت هست از این رشو استفاده میکنیم
@@ -39,10 +46,23 @@ namespace Devcard_MVC.Controllers
         //}
 
         [HttpPost]
-        public JsonResult Contact(Contact form)
+        public IActionResult Contact(Contact form)
         {
-            Console.WriteLine(form.ToString());
-            return Json(Ok());
+            form.Services = new SelectList(_services , "Id", "Name");
+            
+            if (!ModelState.IsValid)
+            {
+                ViewBag.erorr = "اطلاعات وارد شده صحیح نمی باشد لطفا دوباره تلاش کنید.";
+                return View(form);
+            }
+
+            ModelState.Clear();
+            form = new Contact
+            {
+                 Services = new SelectList(_services , "Id", "Name")
+            };
+            ViewBag.success = "اطلاعات با موفقیت ثبت گردید.";
+            return View(form);
         }
 
         public IActionResult Projects()

@@ -54,6 +54,20 @@
 </section>
 <section class="contact-section px-3 py-5 p-md-5">
 	<div class="container">
+		@if (!string.IsNullOrWhiteSpace(ViewBag.success))
+		{
+			<div class="bg-success">
+				<p class="text-center text-white p-1">@ViewBag.success</p>
+			</div>
+		}
+
+		@if (!string.IsNullOrWhiteSpace(ViewBag.erorr))
+		{
+			<div class="bg-danger">
+				<p class="text-center text-white p-1">@ViewBag.erorr</p>
+			</div>
+		}
+		
 		<form id="contact-form" class="contact-form col-lg-8 mx-lg-auto" method="post" asp-action="Contact">
 			<h3 class="text-center mb-3">در دسترس باشید!</h3>
 			<div class="form-row">
@@ -68,12 +82,8 @@
 					<span asp-validation-for="Email" class="text-danger"></span>
 				</div>
 				<div class="form-group col-12">
-					<select class="custom-select" asp-for="service">
-						<option selected>سرویس مورد نظر خود را انتخاب کنید...</option>
-						<option value="basic">نقره ای</option>
-						<option value="standard">طلایی</option>
-						<option value="premium">پلاتین</option>
-						<option value="not sure">الماس</option>
+					<select class="custom-select" asp-for="Service" asp-items="@Model.Services">
+						<option selected="selected" value="0">سرویس مورد نظر خود را انتخاب کنید...</option>
 					</select>
 				</div>
 				<div class="form-group col-12">
@@ -87,4 +97,4 @@
 			</div>
 		</form>
 	</div>
-</section>s
+</section>

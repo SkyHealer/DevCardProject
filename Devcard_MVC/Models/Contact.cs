@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Devcard_MVC.Models
 {
@@ -13,6 +14,7 @@ namespace Devcard_MVC.Models
 		[EmailAddress]
 		public string Email { get; set; }
 		public string Message { get; set; }
-		public string service { get; set; }
+		public int Service{ get; set; }
+		public SelectList Services{ get; set; }
 	}
 }
