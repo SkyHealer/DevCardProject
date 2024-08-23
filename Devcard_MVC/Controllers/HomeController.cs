@@ -1,4 +1,5 @@
 ﻿using Devcard_MVC.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,9 +24,25 @@ namespace Devcard_MVC.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Contact()
         {
             return View();
+        }
+
+        //برای زمانی که نمیدونیم فیلد های فرم ما به چه صورت هست از این رشو استفاده میکنیم
+        //[HttpPost]
+        //public JsonResult Contact(IFormCollection form)
+        //{
+        //    var name = form["name"];
+        //    return Json(Ok());
+        //}
+
+        [HttpPost]
+        public JsonResult Contact(Contact form)
+        {
+            Console.WriteLine(form.ToString());
+            return Json(Ok());
         }
 
         public IActionResult Projects()
